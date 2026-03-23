@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fernando Santos — CS &amp; AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F5F3EE;
+      --surface:   #EDEAE3;
+      --border:    #D8D4CB;
+      --muted:     #9A9389;
+      --body:      #2E2C28;
+      --heading:   #1A1917;
+      --accent:    #C75B2A;
+      --accent-lt: #F2E0D8;
+      --mono:      'DM Mono', monospace;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --radius:    4px;
+      --max:       860px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section { padding: 96px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 243, 238, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--heading);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero { padding: 140px 0 100px; border-top: none; }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3.2rem, 8vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-tagline {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+    .hero-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--heading); color: var(--bg); border: 1px solid var(--heading); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-ghost { background: transparent; color: var(--body); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--body); }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 56px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-text h2 {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--heading);
+      margin-bottom: 24px;
+    }
+    .about-text h2 em { font-style: italic; color: var(--accent); }
+    .about-text p { font-size: 1rem; color: var(--body); line-height: 1.8; margin-bottom: 16px; }
+    .skills-block { padding-top: 8px; }
+    .skills-block h3 {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--body);
+      letter-spacing: 0.04em;
+    }
+    .pill.accent { background: var(--accent-lt); border-color: var(--accent); color: var(--accent); }
+
+    .stat-row { display: flex; gap: 32px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+    .stat { display: flex; flex-direction: column; gap: 4px; }
+    .stat-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--heading); line-height: 1; }
+    .stat-num em { font-style: italic; color: var(--accent); }
+    .stat-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover { border-color: var(--muted); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.07); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-tag { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .project-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--heading); line-height: 1.3; }
+    .project-desc { font-family: var(--serif); font-size: 0.95rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .project-stack span {
+      font-family: var(--mono);
+      font-size: 0.63rem;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .project-card.featured { grid-column: 1 / -1; flex-direction: row; gap: 40px; align-items: center; }
+    .project-card.featured .project-content { flex: 1; }
+    .project-card.featured .project-visual {
+      width: 200px; height: 140px;
+      background: #1A1917;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    /* EXPERIENCE */
+    .experience-list { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 36px 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-meta { padding-top: 4px; }
+    .exp-period { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .exp-company { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; }
+    .exp-role { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--heading); margin-bottom: 10px; }
+    .exp-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .exp-tags span { font-family: var(--mono); font-size: 0.62rem; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); }
+
+    /* HONORS */
+    .honors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .honor-item { display: flex; gap: 14px; align-items: flex-start; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+    .honor-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .honor-title { font-family: var(--serif); font-size: 0.95rem; color: var(--heading); line-height: 1.4; margin-bottom: 2px; }
+    .honor-year { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); }
+
+    /* CONTACT */
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .contact-copy h2 { font-family: var(--serif); font-size: 2.6rem; font-weight: 300; line-height: 1.2; color: var(--heading); margin-bottom: 20px; }
+    .contact-copy h2 em { font-style: italic; color: var(--accent); }
+    .contact-copy p { font-size: 1rem; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 14px;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em;
+      color: var(--body); text-decoration: none;
+      padding: 14px 18px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
+    .contact-link .link-icon { font-size: 1rem; width: 20px; text-align: center; }
+    .contact-link .link-label { flex: 1; }
+    .contact-link .link-arrow { opacity: 0.4; transition: opacity 0.2s, transform 0.2s; }
+    .contact-link:hover .link-arrow { opacity: 1; transform: translateX(3px); }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 0; }
+    footer .container { display: flex; align-items: center; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); }
+
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      .about-grid, .projects-grid, .contact-inner, .honors-grid { grid-template-columns: 1fr; gap: 40px; }
+      .project-card.featured { flex-direction: column; }
+      .project-card.featured .project-visual { width: 100%; }
+      .exp-item { grid-template-columns: 1fr; gap: 8px; }
+      .nav-links { gap: 20px; }
+      #hero { padding: 100px 0 72px; }
+      .stat-row { flex-wrap: wrap; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="#hero" class="nav-logo">F<span style="color:var(--accent)">.</span>Santos</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="container">
+      <p class="hero-eyebrow fade-in">Computer Science &amp; Artificial Intelligence · São Paulo, Brazil</p>
+      <h1 class="hero-name fade-in">Fernando<br /><em>Santos</em></h1>
+      <p class="hero-tagline fade-in">
+        IB student, aspiring CS &amp; AI engineer. I build machine learning systems,
+        teach programming to underserved communities, and compete in
+        mathematics olympiads.
+      </p>
+      <div class="hero-links fade-in">
+        <a href="#projects" class="btn btn-primary">See my projects</a>
+        <a href="Curriculum_Vitae.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <p class="section-label">01 — About</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Building at the intersection of<br /><em>code &amp; curiosity</em></h2>
+          <p>
+            Hi, I'm Fernando — a final-year IB student at St. Paul's School in São Paulo
+            on a full scholarship, studying Higher-Level Computer Science, Mathematics,
+            and Physics. My focus is Machine Learning and AI, with hands-on experience
+            from programmes at Johns Hopkins University and Inteli.
+          </p>
+          <p>
+            Outside academics, I lead <em>Juntos na Tecnologia</em>, a project teaching
+            Python and Java to students from the Paraisópolis community, and I tutor
+            mathematics internationally on Schoolhouse.world. I believe technology
+            should open doors — not close them.
+          </p>
+          <div class="stat-row">
+            <div class="stat"><span class="stat-num"><em>39</em></span><span class="stat-label">IB Predicted</span></div>
+            <div class="stat"><span class="stat-num"><em>1480</em></span><span class="stat-label">SAT Superscore</span></div>
+            <div class="stat"><span class="stat-num"><em>15+</em></span><span class="stat-label">Students taught</span></div>
+            <div class="stat"><span class="stat-num"><em>2×</em></span><span class="stat-label">OBMEP Mention</span></div>
+          </div>
+        </div>
+        <div class="skills-block">
+          <h3>Programming</h3>
+          <div class="skill-pills">
+            <span class="pill accent">Python</span>
+            <span class="pill accent">Java</span>
+            <span class="pill accent">C++</span>
+            <span class="pill">Pseudocode</span>
+          </div>
+          <h3 style="margin-top:28px;">ML &amp; AI</h3>
+          <div class="skill-pills">
+            <span class="pill accent">Machine Learning</span>
+            <span class="pill accent">Classification</span>
+            <span class="pill accent">Predictive Analysis</span>
+            <span class="pill">NLP / Chatbots</span>
+            <span class="pill">Data Analysis</span>
+          </div>
+          <h3 style="margin-top:28px;">Languages</h3>
+          <div class="skill-pills">
+            <span class="pill accent">Portuguese</span>
+            <span class="pill accent">English</span>
+            <span class="pill">Spanish</span>
+          </div>
+          <h3 style="margin-top:28px;">Currently studying</h3>
+          <div class="skill-pills">
+            <span class="pill accent">IB HL Computer Science</span>
+            <span class="pill accent">IB HL Mathematics AA</span>
+            <span class="pill">IB HL Physics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">02 — Projects</p>
+      <div class="projects-grid">
+
+        <a href="#" class="project-card featured">
+          <div class="project-content">
+            <p class="project-tag">Featured · ML · Astrophysics · NSLC 2025</p>
+            <h3 class="project-title">Exoplanet Identification &amp; Classification</h3>
+            <p class="project-desc">
+              Developed a Machine Learning model to identify and classify exoplanets
+              from astronomical data, built as the capstone project of the National
+              Student Leadership Conference in AI at Johns Hopkins University.
+              Collaborated with 20+ students to design and implement the full ML pipeline —
+              from data preprocessing to model evaluation.
+            </p>
+            <div class="project-stack">
+              <span>Python</span><span>Machine Learning</span><span>Classification</span>
+              <span>Data Analysis</span><span>Johns Hopkins · NSLC</span>
+            </div>
+          </div>
+          <div class="project-visual">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" width="200" height="140">
+              <rect width="200" height="140" fill="#1A1917"/>
+              <circle cx="20" cy="15" r="1" fill="white" opacity="0.7"/>
+              <circle cx="55" cy="30" r="1.5" fill="white" opacity="0.5"/>
+              <circle cx="90" cy="10" r="1" fill="white" opacity="0.9"/>
+              <circle cx="140" cy="20" r="1" fill="white" opacity="0.6"/>
+              <circle cx="170" cy="8" r="1.5" fill="white" opacity="0.4"/>
+              <circle cx="180" cy="35" r="1" fill="white" opacity="0.8"/>
+              <circle cx="30" cy="55" r="1" fill="white" opacity="0.5"/>
+              <circle cx="110" cy="50" r="1" fill="white" opacity="0.7"/>
+              <circle cx="160" cy="55" r="1.5" fill="white" opacity="0.4"/>
+              <circle cx="10" cy="90" r="1" fill="white" opacity="0.6"/>
+              <circle cx="75" cy="80" r="1" fill="white" opacity="0.9"/>
+              <circle cx="190" cy="75" r="1" fill="white" opacity="0.5"/>
+              <circle cx="40" cy="120" r="1" fill="white" opacity="0.4"/>
+              <circle cx="130" cy="115" r="1" fill="white" opacity="0.7"/>
+              <circle cx="175" cy="105" r="1" fill="white" opacity="0.6"/>
+              <ellipse cx="100" cy="78" rx="46" ry="16" stroke="#C75B2A" stroke-width="1" fill="none" stroke-dasharray="3 2" opacity="0.6"/>
+              <circle cx="100" cy="70" r="14" fill="#C75B2A" opacity="0.85"/>
+              <circle cx="146" cy="78" r="3.5" fill="#F5F3EE" opacity="0.9"/>
+              <text x="100" y="130" text-anchor="middle" font-family="DM Mono, monospace" font-size="6.5" fill="#9A9389">Johns Hopkins · NSLC · 2025</text>
+            </svg>
+          </div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-tag">AI · NLP · Inteli Camp 2025</p>
+          <h3 class="project-title">Instagram Predictive Chatbot</h3>
+          <p class="project-desc">
+            Led a team of 8 through the end-to-end development of a chatbot that
+            performs predictive analysis on Instagram post ideas based on an
+            account's previous activity — combining NLP and engagement data
+            to surface the most impactful content strategies.
+          </p>
+          <div class="project-stack">
+            <span>Python</span><span>NLP</span><span>Predictive Analysis</span><span>Chatbot</span><span>Inteli</span>
+          </div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-tag">Social Impact · Education · 2024 – Present</p>
+          <h3 class="project-title">Juntos na Tecnologia</h3>
+          <p class="project-desc">
+            Founded and lead a programming education initiative for students from
+            the Paraisópolis community in São Paulo. Teach Python and Java, graduated
+            2 students from the Class of 2025, and currently impact 15+ learners —
+            growing from teacher to President.
+          </p>
+          <div class="project-stack">
+            <span>Python</span><span>Java</span><span>Teaching</span><span>Community</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <p class="section-label">03 — Experience &amp; Education</p>
+      <div class="experience-list">
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2026 — Present</p>
+            <p class="exp-company">Schoolhouse.world</p>
+          </div>
+          <div>
+            <h3 class="exp-role">Certified SAT Math Tutor</h3>
+            <p class="exp-desc">
+              Certified tutor on a global nonprofit peer-led platform. Led a 4-week
+              SAT Math Bootcamp covering Algebra, Advanced Math, Problem Solving
+              &amp; Data Analysis, Geometry, and Trigonometry — earning 8+ volunteer
+              hours and supporting students internationally.
+            </p>
+            <div class="exp-tags"><span>Mathematics</span><span>Teaching</span><span>Volunteer</span><span>Remote</span></div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2024 — Present</p>
+            <p class="exp-company">St. Paul's School</p>
+          </div>
+          <div>
+            <h3 class="exp-role">Assistant Computer Science Teacher</h3>
+            <p class="exp-desc">
+              Lead weekly CS workshop sessions for 9th and 10th grade students,
+              providing supplemental materials for IGCSE examinations. Primary focus
+              on Programming, Python, and Pseudocode — helping students bridge
+              theory and practical problem-solving.
+            </p>
+            <div class="exp-tags"><span>Python</span><span>Pseudocode</span><span>Pedagogy</span><span>IGCSE</span></div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2025</p>
+            <p class="exp-company">Inteli · São Paulo</p>
+          </div>
+          <div>
+            <h3 class="exp-role">Participant — Inteli Camp</h3>
+            <p class="exp-desc">
+              Developed technological and business skills with a focus on teamwork
+              and leadership. Led a group of 8 participants through the full
+              development of an AI chatbot for Instagram content strategy —
+              from concept to working prototype.
+            </p>
+            <div class="exp-tags"><span>AI</span><span>Chatbot</span><span>Leadership</span><span>Team of 8</span></div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2025</p>
+            <p class="exp-company">Johns Hopkins University</p>
+          </div>
+          <div>
+            <h3 class="exp-role">NSLC — Artificial Intelligence</h3>
+            <p class="exp-desc">
+              Attended the National Student Leadership Conference in AI at Johns
+              Hopkins. Built foundations in ML theory and implementation, and
+              developed an exoplanet identification and classification project
+              alongside 20+ students from across the US.
+            </p>
+            <div class="exp-tags"><span>Machine Learning</span><span>Astrophysics</span><span>Research</span></div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2022 — 2026</p>
+            <p class="exp-company">St. Paul's School</p>
+          </div>
+          <div>
+            <h3 class="exp-role">IB Diploma — Full Scholar &amp; STEAM Prefect</h3>
+            <p class="exp-desc">
+              Studying the IB Bilingual Diploma on a full scholarship, with Higher-Level
+              Computer Science, Mathematics Analysis &amp; Approaches, and Physics.
+              Predicted grade: 39. Elected STEAM Prefect in 2025. Previously earned
+              A* in Mathematics, Physics, Chemistry, CS, History, and Music at IGCSE.
+            </p>
+            <div class="exp-tags">
+              <span>HL Computer Science</span><span>HL Mathematics AA</span>
+              <span>HL Physics</span><span>Full Scholarship</span><span>STEAM Prefect</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <p class="exp-period">2021</p>
+            <p class="exp-company">iD Tech · Caltech / MIT</p>
+          </div>
+          <div>
+            <h3 class="exp-role">ML with Python — Certified Coder</h3>
+            <p class="exp-desc">
+              Completed a 10-week programme in Machine Learning with Python alongside
+              students from Caltech and MIT. Earned Certification 2 and was recognised
+              as an iD Tech Certified Coder.
+            </p>
+            <div class="exp-tags"><span>Python</span><span>Machine Learning</span><span>Certified</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="section-label" style="margin-top:64px;">Honors &amp; Awards</p>
+      <div class="honors-grid">
+        <div class="honor-item">
+          <span class="honor-icon">🏅</span>
+          <div>
+            <p class="honor-title">2× Honourable Mention — OBMEP National Stage</p>
+            <p class="honor-year">2019 · 2025 — tied with medalist; invited to OBM (2019)</p>
+          </div>
+        </div>
+        <div class="honor-item">
+          <span class="honor-icon">🖥️</span>
+          <div>
+            <p class="honor-title">Final Stage — Brazilian Computing Olympiad (OBI)</p>
+            <p class="honor-year">2024</p>
+          </div>
+        </div>
+        <div class="honor-item">
+          <span class="honor-icon">🏆</span>
+          <div>
+            <p class="honor-title">Academic Prize — Mathematics, Physics &amp; CS (×2 CS)</p>
+            <p class="honor-year">2023 · 2025</p>
+          </div>
+        </div>
+        <div class="honor-item">
+          <span class="honor-icon">🥉</span>
+          <div>
+            <p class="honor-title">Bronze Medal — OBMEP Local Stage</p>
+            <p class="honor-year">2023</p>
+          </div>
+        </div>
+        <div class="honor-item">
+          <span class="honor-icon">🎓</span>
+          <div>
+            <p class="honor-title">Full Scholarship — St. Paul's School</p>
+            <p class="honor-year">2022 — 2026</p>
+          </div>
+        </div>
+        <div class="honor-item">
+          <span class="honor-icon">🥈</span>
+          <div>
+            <p class="honor-title">Silver Medal — Brazilian Kangaroo Maths</p>
+            <p class="honor-year">2019</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">04 — Contact</p>
+      <div class="contact-inner">
+        <div class="contact-copy">
+          <h2>Let's build something<br /><em>together.</em></h2>
+          <p>
+            Actively looking for university opportunities in Computer Science and AI,
+            as well as research collaborations, internships, and open-source projects.
+            Always happy to connect.
+          </p>
+          <a href="mailto:fernandonmsapp@gmail.com" class="btn btn-primary">Say hello →</a>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:fernandonmsapp@gmail.com" class="contact-link">
+            <span class="link-icon">✉</span>
+            <span class="link-label">fernandonmsapp@gmail.com</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a href="https://github.com/nandows" target="_blank" class="contact-link">
+            <span class="link-icon">⌥</span>
+            <span class="link-label">github.com/nandows</span>
+            <span class="link-arrow">→</span>
+          </a>
+          <a href="https://nandows.tech" target="_blank" class="contact-link">
+            <span class="link-icon">◈</span>
+            <span class="link-label">nandows.tech</span>
+            <span class="link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Fernando Nunes Martins dos Santos</p>
+      <p>nandows.tech · Built with HTML · GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.project-card, .exp-item, .contact-link, .honor-item')
+      .forEach(el => { el.classList.add('fade-in'); observer.observe(el); });
+    document.querySelectorAll('#hero .fade-in').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 80 + i * 130);
+    });
+  </script>
+
+</body>
+</html>
