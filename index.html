@@ -75,13 +75,20 @@
       padding-bottom: 20px;
     }
     .nav-logo {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--heading);
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      letter-spacing: 0.01em;
     }
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+      /* If signa.png is dark/black, this keeps it on-brand; tweak to 'invert(1)' if it's white */
+      filter: brightness(0) saturate(100%);
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .nav-logo:hover img { opacity: 1; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
       font-family: var(--mono);
@@ -96,7 +103,25 @@
     .nav-links a:hover { color: var(--accent); }
 
     /* HERO */
-    #hero { padding: 140px 0 100px; border-top: none; }
+    #hero { padding: 140px 0 100px; border-top: none; position: relative; overflow: hidden; }
+    .hero-logo-bg {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: clamp(260px, 38vw, 420px);
+      height: auto;
+      opacity: 0.07;
+      filter: brightness(0) saturate(100%);
+      pointer-events: none;
+      user-select: none;
+      /* Slow fade-in */
+      animation: hero-logo-reveal 1.4s ease 0.3s both;
+    }
+    @keyframes hero-logo-reveal {
+      from { opacity: 0; transform: translateY(-48%) scale(0.97); }
+      to   { opacity: 0.07; transform: translateY(-50%) scale(1); }
+    }
     .hero-eyebrow {
       font-family: var(--mono);
       font-size: 0.72rem;
@@ -310,7 +335,9 @@
 
   <nav>
     <div class="container">
-      <a href="#hero" class="nav-logo">F<span style="color:var(--accent)">.</span>Nunes</a>
+      <a href="#hero" class="nav-logo">
+        <img src="signa.png" alt="Fernando Nunes" />
+      </a>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
@@ -322,6 +349,7 @@
 
   <section id="hero">
     <div class="container">
+      <img src="signa.png" class="hero-logo-bg" alt="" aria-hidden="true" />
       <p class="hero-eyebrow fade-in">Computer Science &amp; Artificial Intelligence · São Paulo, Brazil</p>
       <h1 class="hero-name fade-in">Fernando<br /><em>Nunes</em></h1>
       <p class="hero-tagline fade-in">
@@ -331,7 +359,7 @@
       </p>
       <div class="hero-links fade-in">
         <a href="#projects" class="btn btn-primary">See my projects</a>
-        <a href="/cv.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
+        <a href="Curriculum_Vitae.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
       </div>
     </div>
   </section>
@@ -343,7 +371,7 @@
         <div class="about-text">
           <h2>Building at the intersection of<br /><em>code &amp; curiosity</em></h2>
           <p>
-            Hi, I'm Fernando Nunes — a final-year IB student at St. Paul's School in São Paulo
+            Hi, I'm Fernando — a final-year IB student at St. Paul's School in São Paulo
             on a full scholarship, studying Higher-Level Computer Science, Mathematics,
             and Physics. My focus is Machine Learning and AI, with hands-on experience
             from programmes at Johns Hopkins University and Inteli.
@@ -643,22 +671,17 @@
             as well as research collaborations, internships, and open-source projects.
             Always happy to connect.
           </p>
-          <a href="mailto:fernandonmsapp@gmail.com" class="btn btn-primary">Say hello →</a>
+          <a href="/cdn-cgi/l/email-protection#721417001c131c161d1c1f0113020232151f131b1e5c111d1f" class="btn btn-primary">Say hello →</a>
         </div>
         <div class="contact-links">
-          <a href="mailto:fernandonmsapp@gmail.com" class="contact-link">
+          <a href="/cdn-cgi/l/email-protection#1e787b6c707f707a7170736d7f6e6e5e79737f7772307d7173" class="contact-link">
             <span class="link-icon">✉</span>
-            <span class="link-label">fernandonmsapp@gmail.com</span>
+            <span class="link-label"><span class="__cf_email__" data-cfemail="9cfaf9eef2fdf2f8f3f2f1effdececdcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></span>
             <span class="link-arrow">→</span>
           </a>
           <a href="https://github.com/nandows" target="_blank" class="contact-link">
-            <span class="link-icon">👨‍💻</span>
-            <span class="link-label">github.com/nando-nunes</span>
-            <span class="link-arrow">→</span>
-          </a>
-          <a href="https://www.linkedin.com/in/fernandonmssantos/" target="_blank" class="contact-link">
-            <span class="link-icon">🧳</span>
-            <span class="link-label">LinkedIn</span>
+            <span class="link-icon">⌥</span>
+            <span class="link-label">github.com/nandows</span>
             <span class="link-arrow">→</span>
           </a>
           <a href="https://nandows.tech" target="_blank" class="contact-link">
@@ -678,17 +701,9 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const observer = new IntersectionObserver(
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.1 }
     );
-    document.querySelectorAll('.project-card, .exp-item, .contact-link, .honor-item')
-      .forEach(el => { el.classList.add('fade-in'); observer.observe(el); });
-    document.querySelectorAll('#hero .fade-in').forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), 80 + i * 130);
-    });
-  </script>
-
-</body>
-</html>
+    document.querySelectorAll('.proje
