@@ -115,8 +115,12 @@
       filter: brightness(0) saturate(100%);
       pointer-events: none;
       user-select: none;
-      /* Slow fade-in */
+      z-index: 0;
       animation: hero-logo-reveal 1.4s ease 0.3s both;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
     }
     @keyframes hero-logo-reveal {
       from { opacity: 0; transform: translateY(-48%) scale(0.97); }
@@ -350,16 +354,18 @@
   <section id="hero">
     <div class="container">
       <img src="signa.png" class="hero-logo-bg" alt="" aria-hidden="true" />
-      <p class="hero-eyebrow fade-in">Computer Science &amp; Artificial Intelligence · São Paulo, Brazil</p>
-      <h1 class="hero-name fade-in">Fernando<br /><em>Nunes</em></h1>
-      <p class="hero-tagline fade-in">
-        IB student, aspiring CS &amp; AI engineer. I build machine learning systems,
-        teach programming to underserved communities, and compete in
-        mathematics olympiads.
-      </p>
-      <div class="hero-links fade-in">
-        <a href="#projects" class="btn btn-primary">See my projects</a>
-        <a href="Curriculum_Vitae.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
+      <div class="hero-content">
+        <p class="hero-eyebrow fade-in">Computer Science &amp; Artificial Intelligence · São Paulo, Brazil</p>
+        <h1 class="hero-name fade-in">Fernando<br /><em>Nunes</em></h1>
+        <p class="hero-tagline fade-in">
+          IB student, aspiring CS &amp; AI engineer. I build machine learning systems,
+          teach programming to underserved communities, and compete in
+          mathematics olympiads.
+        </p>
+        <div class="hero-links fade-in">
+          <a href="#projects" class="btn btn-primary">See my projects</a>
+          <a href="Curriculum_Vitae.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
+        </div>
       </div>
     </div>
   </section>
